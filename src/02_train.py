@@ -1,5 +1,4 @@
-# src/02_train.py (Revisado com Tratamento de Erros de Coluna)
-# -*- coding: utf-8 -*-
+
 import json
 import joblib
 import pandas as pd
@@ -13,7 +12,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error
 from scipy.stats import randint
 
-# --- CONFIGURAÇÕES ---
+
 DATA_PROCESSED = Path("data/processed")
 MODEL_DIR = Path("models")
 MODEL_DIR.mkdir(parents=True, exist_ok=True)
@@ -23,12 +22,12 @@ PARQUET_PATH = DATA_PROCESSED / f"enem_2023_amostra_{SAMPLE_SIZE}.parquet"
 
 TARGET = "NU_NOTA_MT"
 
-# Listas de features desejadas
+
 CATEGORICAL_FEATURES_DESEJADAS = ["Q006", "Q002", "TP_ESCOLA", "TP_COR_RACA"]
 NUMERIC_FEATURES_DESEJADAS = ["NU_NOTA_CN", "NU_NOTA_LC", "NU_NOTA_CH", "NU_NOTA_RED"]
-
+    #segunda etapa
 def build_pipeline(cat_features_disponiveis, num_features_disponiveis):
-    # Constrói o pipeline apenas com as colunas que foram encontradas
+    
     cat_transformer = Pipeline(steps=[
         ("imputer", SimpleImputer(strategy="most_frequent")),
         ("onehot", OneHotEncoder(handle_unknown="ignore"))
@@ -57,11 +56,11 @@ def main():
     
     print(f"Iniciando treinamento para prever a nota de '{TARGET}'...")
     
-    # ⭐ LÓGICA ROBUSTA: Verifica quais features desejadas realmente existem no DataFrame
+    
     cat_features_disponiveis = [col for col in CATEGORICAL_FEATURES_DESEJADAS if col in df.columns]
     num_features_disponiveis = [col for col in NUMERIC_FEATURES_DESEJADAS if col in df.columns]
     
-    # Avisa sobre colunas que não foram encontradas
+    
     features_faltantes = set(CATEGORICAL_FEATURES_DESEJADAS + NUMERIC_FEATURES_DESEJADAS) - set(df.columns)
     if features_faltantes:
         print(f"\nAVISO: As seguintes colunas não foram encontradas e serão ignoradas: {list(features_faltantes)}\n")
@@ -72,7 +71,7 @@ def main():
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    # Passa as listas de colunas disponíveis para o pipeline
+    
     pipeline = build_pipeline(cat_features_disponiveis, num_features_disponiveis)
     
     param_dist = {

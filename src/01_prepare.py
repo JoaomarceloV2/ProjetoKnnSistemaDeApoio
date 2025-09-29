@@ -59,7 +59,7 @@ def main():
 
     if "NU_NOTA_REDACAO" in df_filtered.columns:
         df_filtered = df_filtered.rename(columns={"NU_NOTA_REDACAO": "NU_NOTA_RED"})
-        
+   #primeira etapa     
     if len(df_filtered) < SAMPLE_SIZE:
         df_sample = df_filtered
     else:
