@@ -1,0 +1,16 @@
+# Ambiente Virtual do Python
+.venv/
+venv/
+__pycache__/
+
+# Arquivos de dados brutos e processados
+data/raw/
+data/processed/
+
+# Modelos salvos (opcional, mas bom para não versionar arquivos grandes)
+models/
+
+# Arquivos específicos do sistema ou do editor
+.vscode/
+.idea/
+*.DS_Store
